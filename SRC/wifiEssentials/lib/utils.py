@@ -6,6 +6,15 @@ import binascii, pyDot11
 class Poption(object):
     """Class to deal with packet specific options"""
     
+    def __init__(self):
+        self.nonceDict = {'8a': 'a1',
+                          '0a': 'a2',
+                          'ca': 'a3',
+                          '89': 't1',
+                          '09': 't2',
+                          'c9': 't3'}
+
+
     def byteRip(self, stream, chop = False, compress = False, order = 'first', output = 'hex', qty = 1):
         """Take a scapy hexstr(str(pkt), onlyhex = 1) and grab based on what you want
 

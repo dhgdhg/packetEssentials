@@ -1,5 +1,5 @@
-# scapyEssentials
-An essential set of modules for working with the Scapy Library in Python
+# wifiEssentials
+An essential set of modules for working 802.11 using the Scapy Library in Python
 
 ## Brief module descriptions
 ### chanFreq
@@ -79,8 +79,8 @@ Class to deal with packet specific options
   By default, will create tap0 unless an integer parameter is added to Tap()
   """
   ## Create interface of tap3
-  import scapyEssentials as SE
-  nClass = SE.lib.nic
+  import wifiEssentials as WE
+  nClass = WE.lib.nic
   nTap = nClass.Tap(3)
   ````
 * lib/unifier.py
@@ -88,8 +88,8 @@ Class to deal with packet specific options
   * Useful for passing around a Class with its associated objects
   ````python
   ## Keep track of wlan0mon using ath9k
-  import scapyEssentials as SE
-  nUnify = SE.lib.unifier
+  import wifiEssentials as WE
+  nUnify = WE.lib.unifier
   nUni = nUnify.Unify('ath9k')
   nUni.nic = 'wlan0mon'
   print nUni.offset

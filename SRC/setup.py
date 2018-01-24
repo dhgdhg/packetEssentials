@@ -4,14 +4,14 @@
 from setuptools import setup
 
 setup(
-    name = 'scapyEssentials',
+    name = 'wifiEssentials',
     version = '1.0.0',
     author = 'stryngs',
     author_email = 'info@ethicalreporting.org',
-    packages = ['scapyEssentials', 'scapyEssentials.lib'],
+    packages = ['wifiEssentials', 'wifiEssentials.lib'],
     include_package_data = True,
-    url = 'https://github.com/ICSec/scapyEssentials',
+    url = 'https://github.com/ICSec/wifiEssentials',
     license ='GNU General Public License v2',
-    keywords = '802.11 scapy essentials',
-    description='Essential nuances for Python Scapy'
+    keywords = '802.11 wifi essentials',
+    description='Essential nuances for Python Scapy revolving around 802.11'
 )
