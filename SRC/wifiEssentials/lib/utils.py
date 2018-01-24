@@ -1,7 +1,7 @@
 from scapy.utils import hexstr, PcapReader, PcapWriter, rdpcap, wrpcap
 from scapy.plist import PacketList
 from zlib import crc32
-import binascii, pyDot11
+import binascii
 
 class Poption(object):
     """Class to deal with packet specific options"""
