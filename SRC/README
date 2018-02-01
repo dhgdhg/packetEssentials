@@ -1,5 +1,5 @@
-# wifiEssentials
-An essential set of modules for working 802.11 using the Scapy Library in Python
+# packetEssentials
+An essential set of modules for working with packets using the Scapy Library in Python.  Highly geared around 802.11, but still useful for Ethernet.
 
 ## Brief module descriptions
 ### chanFreq
@@ -24,7 +24,7 @@ Class for simple conversions
 
 ### drv
 Import for lib/drivers.py
-This class helps to keep track of which drivers are in use
+This class identifies the given offsets for drivers
 * drivers(val)
     ````python
     """Returns the numeric driver offset for a given driver"""
@@ -79,8 +79,8 @@ Class to deal with packet specific options
   By default, will create tap0 unless an integer parameter is added to Tap()
   """
   ## Create interface of tap3
-  import wifiEssentials as WE
-  nClass = WE.lib.nic
+  import packetEssentials as PE
+  nClass = PE.lib.nic
   nTap = nClass.Tap(3)
   ````
 * lib/unifier.py
@@ -88,8 +88,8 @@ Class to deal with packet specific options
   * Useful for passing around a Class with its associated objects
   ````python
   ## Keep track of wlan0mon using ath9k
-  import wifiEssentials as WE
-  nUnify = WE.lib.unifier
+  import packetEssentials as PE
+  nUnify = PE.lib.unifier
   nUni = nUnify.Unify('ath9k')
   nUni.nic = 'wlan0mon'
   print nUni.offset

@@ -15,24 +15,29 @@ class Poption(object):
                           'c9': 't3'}
 
 
-    def byteRip(self, stream, chop = False, compress = False, order = 'first', output = 'hex', qty = 1):
-        """Take a scapy hexstr(str(pkt), onlyhex = 1) and grab based on what you want
+    def byteRip(self,
+                stream,
+                chop = False,
+                compress = False,
+                order = 'first',
+                output = 'hex',
+                qty = 1):
+        """Take a packet and grab a grouping of bytes, based on what you want
+
+        byteRip can accept a scapy object or a scapy object in str() format
+        Allowing byteRip to accept str() format allows for byte insertion
+        
+        Example of scapy object definition:
+          - stream = Dot11WEP()
+          
+        Example of scapy object in str() format
+          - stream = str(Dot11WEP())
 
         chop is the concept of removing the qty based upon the order
         compress is the concept of removing unwanted spaces    
         order is concept of give me first <qty> bytes or gives me last <qty> bytes
         output deals with how the user wishes the stream to be returned
-        qty is how many nibbles to deal with
-        
-        QTY IS DOUBLE THE NUMBER OF BYTES
-        THINK OF QTY AS A NIBBLE
-        2 NIBBLES FOR EVERY BYTE
-        
-        Important to note that moving to a pure string versus a list,
-        will probably help with memory consumption
-        
-        Eventually, need to add a kwarg that allows us to specify,
-        which bytes we want, i.e. first and last based on order
+        qty is how many bytes to remove
         """
         
         def pktFlow(pkt, output):
@@ -122,7 +127,12 @@ class Poption(object):
         return s
 
 
-    def fcsGen(self, frame, start = None, end = None, mLength = 0, output = 'bytes'):
+    def fcsGen(self,
+               frame,
+               start = None,
+               end = None,
+               mLength = 0,
+               output = 'bytes'):
         """Return the FCS for a given frame"""
         frame = str(frame)
         frame = frame[start:end]
