@@ -1,5 +1,5 @@
 class Drivers(object):
-    """This class helps to keep track of which drivers are in use"""
+    """This class identifies the given offsets for drivers"""
 
     def drivers(self, val):
         """Driver offsets for RadioTap Headers
