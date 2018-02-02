@@ -80,8 +80,7 @@ Class to deal with packet specific options
   """
   ## Create interface of tap3
   import packetEssentials as PE
-  nClass = PE.lib.nic
-  nTap = nClass.Tap(3)
+  nTap = PE.lib.nic.Tap(3)
   ````
 * lib/unifier.py
   * A singular point of contact for tracking purposes
@@ -89,9 +88,7 @@ Class to deal with packet specific options
   ````python
   ## Keep track of wlan0mon using ath9k
   import packetEssentials as PE
-  nUnify = PE.lib.unifier
-  nUni = nUnify.Unify('ath9k')
-  nUni.nic = 'wlan0mon'
+  nUni = PE.lib.unifier.Unify('wlan0mon')
   print nUni.offset
   print nUni.nic
   ````
