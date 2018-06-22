@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name = 'packetEssentials',
-    version = '1.0.2',
+    version = '1.0.4',
     author = 'stryngs',
     author_email = 'info@ethicalreporting.org',
     packages = ['packetEssentials', 'packetEssentials.lib'],

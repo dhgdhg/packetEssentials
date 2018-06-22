@@ -39,6 +39,7 @@ class Drivers(object):
         """
         typeDict = {'ath9k': 19,
                     'ath9k_htc': 19,
+                    'iwlwifi': 19,
                     'rt2800usb': 11,
                     'wl12xx': 11}
         return typeDict.get(val)
