@@ -1,4 +1,4 @@
-import time
+import subprocess, time
 from drivers import Drivers
 from chan_freq import ChanFreq
 from scapy.utils import hexstr
@@ -9,14 +9,16 @@ pParser = Drivers()
 class Unify(object):
     """This class acts a singular point of contact for tracking purposes"""
 
-    def __init__(self, iwDriver):
-        ## Set the driver
-        self.iwDriver = iwDriver
+    def __init__(self, nic):
+        ## Discover the driver
+        self.nic = nic
+        cmd = 'readlink -nfqs /sys/class/net/%s/device/driver' % self.nic
+        self.driver = subprocess.check_output(cmd, shell = True).split('/')[-1:][0]
         
         ## Notate driver offset
-        self.driver = Drivers()
+        self.peDrivers = Drivers()
         self.chanFreq = ChanFreq()
-        self.offset = self.driver.drivers(self.iwDriver)
+        self.offset = self.peDrivers.drivers(self.driver)
 
 
     def times(self):
