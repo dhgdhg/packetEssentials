@@ -15,7 +15,7 @@ class Subtypes(object):
                        11: 'Authentication',
                        12: 'Deauthentication',
                        13: 'Action',
-                       14 'Action no ACK'}
+                       14: 'Action no ACK'}
             return subDict.get(val)
 
 
