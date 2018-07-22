@@ -36,10 +36,26 @@ class Drivers(object):
         As of right now, this list is very small.  If you wish to contribute,
         please contact via a Github Issue with the type of driver you have and
         the offset associated with it.
+        
+        Research is underway right now to figure out how to best deal with the
+        obstacle found when dealing with an Alfa AWUS036-NEH.  In a current
+        version of Kali, it lists the driver as being an rt2800usb.  Previous
+        testing with a non NEH using that driver found the offset to be 11.
+        
+        .notdecoded iwlwifi example:                                                                                             [--HERE--]    
+        ['20', '08', '00', 'a0', '20', '08', '00', '00', '10', '41', '6f', '79', '01', '00', '00', '00', '10', '02', '99', '09', 'a0', '00', 'd8', '00', '00', '00', '00', '00', '00', '00', '00', '00', '51', '40', '6f', '79', '00', '00', '00', '00', '16', '00', '11', '03', 'd8', '00', 'ce', '01']
+        
+        .notdecoded rt2800usb-NEH example:
+                     [--HERE--]  4th bit ([3] as this is a list) for .notdecoded and 12th bit all together
+        ['00', '02', '6c', '09', 'a0', '00', 'dd', '01', '00', '00']
+        
+        The dirty patch I'm doing is just to adjust accordingly, but what is
+        curious to know is what else is not there in .notdecoded for the NEH        
         """
         typeDict = {'ath9k': 19,
                     'ath9k_htc': 19,
                     'iwlwifi': 19,
                     'rt2800usb': 11,
+                    'rt2800usb-NEH': 3,
                     'wl12xx': 11}
         return typeDict.get(val)
