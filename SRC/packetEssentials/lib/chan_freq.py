@@ -20,8 +20,27 @@ class ChanFreq(object):
         return typeDict.get(val)
 
 
+    def twoFourRev(self, val):
+        """Channel to Frequency converter for 2.4 ghz"""
+        typeDict = {1: '2412',
+                    2: '2417',
+                    3: '2422',
+                    4: '2427',
+                    5: '2432',
+                    6: '2437',
+                    7: '2442',
+                    8: '2447',
+                    9: '2452',
+                    10: '2457',
+                    11: '2462',
+                    12: '2467',
+                    13: '2472',
+                    14: '2484'}
+        return typeDict.get(val)
+
+
     def fiveEight(self, val):
-        """Frequency to Channel converter for 5.8 ghz"""
+        """Frequency to Channel converter for 5.8 GHz"""
         typeDict = {5180: '36',
                     5200: '40',
                     5210: '42',
@@ -40,4 +59,25 @@ class ChanFreq(object):
                     5805: '161',
                     5825: '165'}
         return typeDict.get(val)
+
+
+    def fiveEightrev(self, val):
+        """Channel to Frequency converter for 5.8 GHz"""
+        typeDict = {36: '5180',
+                    40: '5200',
+                    42: '5210',
+                    44: '5220',
+                    48: '5240',
+                    50: '5250',
+                    52: '5260',
+                    58: '5290',
+                    60: '5300',
+                    64: '5320',
+                    149: '5745',
+                    152: '5760',
+                    153: '5765',
+                    157: '5785',
+                    160: '5800',
+                    161: '5805',
+                    165: '5825'}
 
