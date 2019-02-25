@@ -1,6 +1,6 @@
 import subprocess, time
-from drivers import Drivers
-from chan_freq import ChanFreq
+from .drivers import Drivers
+from .chan_freq import ChanFreq
 from scapy.utils import hexstr
 
 ### Not sure if this is needed here
