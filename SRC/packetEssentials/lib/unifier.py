@@ -1,10 +1,13 @@
 import subprocess, time
-from drivers import Drivers
-from chan_freq import ChanFreq
 from scapy.utils import hexstr
 
-### Not sure if this is needed here
-pParser = Drivers()
+## Python 3 workaround
+try:
+    from drivers import Drivers
+    from chan_freq import ChanFreq
+except:
+    from .drivers import Drivers
+    from .chan_freq import ChanFreq
 
 class Unify(object):
     """This class acts a singular point of contact for tracking purposes"""
