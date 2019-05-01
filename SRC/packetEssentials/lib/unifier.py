@@ -9,9 +9,6 @@ except:
     from .drivers import Drivers
     from .chan_freq import ChanFreq
 
-### Not sure if this is needed here
-pParser = Drivers()
-
 class Unify(object):
     """This class acts a singular point of contact for tracking purposes"""
 
