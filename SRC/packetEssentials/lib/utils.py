@@ -5,7 +5,7 @@ import binascii
 
 class Poption(object):
     """Class to deal with packet specific options"""
-    
+
     def __init__(self):
         self.nonceDict = {'8a': 'a1',
                           '0a': 'a2',
@@ -26,41 +26,43 @@ class Poption(object):
 
         byteRip can accept a scapy object or a scapy object in str() format
         Allowing byteRip to accept str() format allows for byte insertion
-        
+
         Example of scapy object definition:
           - stream = Dot11WEP()
-          
+
         Example of scapy object in str() format
           - stream = str(Dot11WEP())
 
         chop is the concept of removing the qty based upon the order
-        compress is the concept of removing unwanted spaces    
+        compress is the concept of removing unwanted spaces
         order is concept of give me first <qty> bytes or gives me last <qty> bytes
         output deals with how the user wishes the stream to be returned
         qty is how many bytes to remove
         """
-        
+
         def pktFlow(pkt, output):
             if output == 'hex':
                 return pkt
             if output == 'str':
                 return binascii.unhexlify(str(pkt).replace(' ', ''))
-            
-        stream = hexstr(str(stream), onlyhex = 1)
+
+        ## Python 2x and 3x seem to align on this method now
+        # stream = hexstr(str(stream), onlyhex = 1)
+        stream = hexstr(stream, onlyhex = 1)
         streamList = stream.split(' ')
         streamLen = len(streamList)
 
         ## Deal with first bytes
         if order == 'first':
-            
+
             ## Deal with not chop and not compress
             if not chop and not compress:
                 return pktFlow(' '.join(streamList[0:qty]), output)
-            
+
             ## Deal with chop and not compress
             if chop and not compress:
                 return pktFlow(' '.join(streamList[qty:]), output)
-                
+
             ## Deal with compress and not chop
             if compress and not chop:
                 return pktFlow(' '.join(streamList[0:qty]).replace(' ', ''), output)
@@ -68,18 +70,18 @@ class Poption(object):
             ## Deal with chop and compress
             if chop and compress:
                 return pktFlow(' '.join(streamList[qty:]).replace(' ', ''), output)
-        
+
         ## Deal with last bytes
         if order == 'last':
-            
+
             ## Deal with not chop and not compress
             if not chop and not compress:
                 return pktFlow(' '.join(streamList[streamLen - qty:]), output)
-            
+
             ## Deal with chop and not compress
             if chop and not compress:
                 return pktFlow(' '.join(streamList[:-qty]), output)
-            
+
             ## Deal with compress and not chop
             if compress and not chop:
                 return pktFlow(' '.join(streamList[streamLen - qty:]).replace(' ', ''), output)
@@ -107,7 +109,7 @@ class Poption(object):
             else:
                 sType = 'bStr'
             value = value.replace('0x', '')
-            
+
         start = 0
         end = 2
         swapList = []
@@ -119,7 +121,7 @@ class Poption(object):
         s = ''
         for i in swapList:
             s += i
-        
+
         if sType == 'int':
             s = int(s, 16)
         elif sType == 'hStr':
