@@ -1,6 +1,6 @@
 class ChanFreq(object):
     """This class is for channel/frequency specific tasks"""
-    
+
     def twoFour(self, val):
         """Frequency to Channel converter for 2.4 ghz"""
         typeDict = {2412: '1',
@@ -61,7 +61,7 @@ class ChanFreq(object):
         return typeDict.get(val)
 
 
-    def fiveEightrev(self, val):
+    def fiveEightRev(self, val):
         """Channel to Frequency converter for 5.8 GHz"""
         typeDict = {36: '5180',
                     40: '5200',
@@ -80,4 +80,3 @@ class ChanFreq(object):
                     160: '5800',
                     161: '5805',
                     165: '5825'}
-
