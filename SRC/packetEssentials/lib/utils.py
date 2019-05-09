@@ -1,7 +1,11 @@
+from .converter import Converter
+
+from scapy.layers.dot11 import Dot11
 from scapy.utils import hexstr, PcapReader, PcapWriter, rdpcap, wrpcap
 from scapy.plist import PacketList
 from zlib import crc32
 import binascii
+import sys
 
 class Poption(object):
     """Class to deal with packet specific options"""
@@ -13,6 +17,8 @@ class Poption(object):
                           '89': 't1',
                           '09': 't2',
                           'c9': 't3'}
+        self.verbose = False
+        self.cv = Converter()
 
 
     def byteRip(self,
@@ -113,7 +119,9 @@ class Poption(object):
         start = 0
         end = 2
         swapList = []
-        for i in range(len(value)/2):
+        # print(value)
+        # for i in range(len(value) / 2):
+        for i in range(int(len(value) / 2)):  # Python3x compat.
             swapList.append(value[start:end])
             start += 2
             end += 2
@@ -135,10 +143,26 @@ class Poption(object):
                end = None,
                mLength = 0,
                output = 'bytes'):
-        """Return the FCS for a given frame"""
-        frame = str(frame)
+        """Return the FCS for a given frame
+
+        MODIFYING THIS PROBABLY BREAKS OTHER THINGS
+
+        Where objFrame is the frame
+        x = hexstr(objFrame, onlyhex = 1).replace(' ', '').lower()
+        crc32(binascii.unhexlify(x.replace(' ', '')))
+
+        """
+        ## Original Python2x way of doing it -- when str(frame) worked nicely...
+        # frame = str(frame)
+        # frame = frame[start:end]
+        # frame = crc32(frame) & 0xffffffff
+
+        ## Python 2x or 3x way
+        # frame = str(frame)  ## As we're using the raw object to get to 2x str() format, this is no longer needed
         frame = frame[start:end]
-        frame = crc32(frame) & 0xffffffff
+        frame = hexstr(frame, onlyhex = 1).replace(' ', '').lower()
+        frame = crc32(binascii.unhexlify(frame.replace(' ', ''))) & 0xffffffff
+
         fcs = hex(frame).replace('0x', '')
         while len(fcs) < mLength:
             fcs = '0' + fcs
@@ -149,3 +173,55 @@ class Poption(object):
             return binascii.unhexlify(fcs)
         else:
             return fcs
+
+
+    def macFilter(self, mac, pkt):
+        """ Combo whitelist and blacklist for given MAC address """
+        try:
+            ## Get state
+            if pkt[Dot11].addr1 == mac or pkt[Dot11].addr2 == mac or pkt[Dot11].addr3 == mac or pkt[Dot11].addr4 == mac:
+                match = True
+            else:
+                match = False
+
+            ## Compare matched state
+            if match is True:
+                if self.verbose is True:
+                    print('match true  + {0}'.format(mac))
+                return True
+            else:
+                if self.verbose is True:
+                    print('match false - {0}'.format(mac))
+                return False
+        except:
+            return False
+
+
+    def macPair(self, macX, macY, pkt):
+        """Pair up the MAC addresses, and follow them
+
+        macX is weighted before macY, allowing the user to have a ranked format
+        For fastest results, use macX as the quietest MAC
+        """
+        if self.macFilter(macX, pkt) is True:
+            if self.macFilter(macY, pkt) is True:
+                return True
+        return False
+
+
+    def symStryngs(self, scpObj, fld, maxInt = 254):
+        """Iterator to show the available opcodes for a given scapy object
+        Returns a list object by default of 0-253 for the opcode
+        """
+        count = 0
+        scpObj = scpObj.copy()
+        scpObj.setfieldval(fld, count)
+        strDict = {}
+        while count < maxInt:
+            strDict.append({count: self.cv.symString(scpObj, fld)})
+            count += 1
+            try:
+                scpObj.setfieldval(fld, count)
+            except Exception as e:
+                print(str(e) + ' -- Stopped on {0}'.format(count))
+        return strDict

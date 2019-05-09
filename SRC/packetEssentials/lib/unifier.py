@@ -17,7 +17,7 @@ class Unify(object):
         self.nic = nic
         cmd = 'readlink -nfqs /sys/class/net/%s/device/driver' % self.nic
         self.driver = subprocess.check_output(cmd, shell = True).split('/')[-1:][0]
-        
+
         ## Notate driver offset
         self.peDrivers = Drivers()
         self.chanFreq = ChanFreq()
@@ -36,12 +36,12 @@ class Unify(object):
 
     def getStats(self, pkt):
         """Returns statistics for a given packet based upon the driver in use
-        
+
         Currently this function supports the following:
           - Channel
           - Frequency
           - RSSI
-          
+
         If you think that this function should added to, submit a PR via github
         """
         notDecoded = hexstr(str(pkt.notdecoded), onlyhex=1).split(' ')
