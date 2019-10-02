@@ -40,38 +40,8 @@ class Handlers(object):
         """
         def tmp(signal, frame):
             if self.handler is not None:
-                if self.handler != 'meta':
-                    print ('\n [!] Saving {0} frames --> {1}'.format(len(self.handlerDict.get(self.handler)), self.handler + '.pcap\n'))
-                    wrpcap(self.handler + '.pcap', self.handlerDict.get(self.handler))
-                else:
-                    ## Visualizations -- Only works with meta for now
-                    if self.metaMode is True:
-                    # if args.graph is True:
-                        # if args.e is True:
-                        metaCounts, metaSums = self.metaDisplay() ## Throw in option later for low to high display
-                        countDict_X = [i for i in metaCounts.keys()]
-                        countDict_Y = [i for i in metaCounts.values()]
-                        sumDict_X = [i for i in metaSums.keys()]
-                        sumDict_Y = [i for i in metaSums.values()]
-
-                        # Create traces
-                        counts = go.Scatter(
-                            x = countDict_X,
-                            y = countDict_Y,
-                            mode = 'lines',
-                            name = 'count'
-                        )
-                        sums = go.Scatter(
-                            x = sumDict_X,
-                            y = sumDict_Y,
-                            mode = 'lines',
-                            name = 'sum'
-                        )
-
-                        # data = [sums, counts]
-                        offline.plot([counts], filename = 'counts.html', auto_open = False)
-                        offline.plot([sums], filename = 'sums.html', auto_open = False)
-
+                print ('\n [!] Saving {0} frames --> {1}'.format(len(self.handlerDict.get(self.handler)), self.handler + '.pcap\n'))
+                wrpcap(self.handler + '.pcap', self.handlerDict.get(self.handler))
             print('\n\n [!] Crtl + C sequence complete\n')
             sys.exit(0)
         return tmp
@@ -100,43 +70,6 @@ class Handlers(object):
         for k, v in sorted(self.metaSums.items(), key = lambda item: item[1], reverse = orderHigh):
             metaSums.update({k: v / 1024})
         return metaCounts, metaSums
-
-
-    def metaDump(self, verbose = False):
-        """Dump the MACs
-        Future thoughts with this are things like From-DS and To-DS statistics
-        """
-        self.handler = 'meta'
-        self.metaMode = True
-        self.verbose = verbose
-        def snarf(pkt):
-            self.envTrafficCount += 1
-            if verbose is True:
-                print(str(self.envTrafficCount))
-
-            ## Do something with the record
-            metaSet = {pkt[Dot11].addr1, pkt[Dot11].addr2, pkt[Dot11].addr3}
-            meta = str(metaSet).replace("set(", '').replace(")", '')
-
-            ## Skip broadcasts
-            if 'ff:ff:ff:ff:ff:ff' not in metaSet:
-                oldCount = self.metaCounts.get(meta)
-
-                if oldCount is None:
-                    ## Update the count
-                    self.metaCounts.update({meta: 1})
-
-                    ## Update the sum of bytes
-                    self.metaSums.update({meta: len(pkt)})
-                else:
-                    ## Update the count
-                    oldCount += 1
-                    self.metaCounts.update({meta: oldCount})
-
-                    ## Update the sum of bytes
-                    count = self.metaSums.get(meta) + len(pkt)
-                    self.metaSums.update({meta: count})
-        return snarf
 
 
     def mpTraffic(self, macX, macY, verbose = False):
