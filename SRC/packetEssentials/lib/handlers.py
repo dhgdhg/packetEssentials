@@ -1,9 +1,6 @@
 import collections
-import plotly.figure_factory as ff
-import plotly.graph_objs as go
 import signal
 import sys
-from plotly.offline import offline
 from scapy.layers.dot11 import Dot11
 from scapy.utils import wrpcap
 
