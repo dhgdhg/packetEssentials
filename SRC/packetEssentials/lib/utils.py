@@ -48,9 +48,9 @@ class Poption(object):
 
         def pktFlow(pkt, output):
             if output == 'hex':
-                return pkt
+                return pkt.lower()
             if output == 'str':
-                return binascii.unhexlify(str(pkt).replace(' ', ''))
+                return binascii.unhexlify(str(pkt).replace(' ', '')).lower()
 
         ## Python 2x and 3x seem to align on this method now
         # stream = hexstr(str(stream), onlyhex = 1)
